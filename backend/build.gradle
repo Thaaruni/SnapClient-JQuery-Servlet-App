@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+group 'lk.ijse.dep13'
+version '1.0.0'
+repositories {
+    mavenCentral()
+}
+sourceCompatibility = '22'
+targetCompatibility = '22'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+dependencies {
+    compileOnly('jakarta.servlet:jakarta.servlet-api:6.0.0')
+    implementation 'org.apache.commons:commons-dbcp2:2.13.0'
+    implementation 'org.postgresql:postgresql:42.7.5'
+    testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation 'com.h2database:h2:2.3.232'
+}
+test {
+    useJUnitPlatform()
+}
