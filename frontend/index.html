@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+  <header class="p-3 d-flex justify-content-between
+      border-bottom align-items-center">
+    <h1 class="m-0">
+      <i class="bi bi-person-bounding-box me-1 text-primary"></i>
+      Servlet jQuery App
+    </h1>
+    <button class="btn btn-outline-primary"
+            data-bs-toggle="modal" data-bs-target="#new-customer-modal">
+      New Customer
+    </button>
+  </header>
+  <main>
+    <table id="tbl-customers" class="table table-hover">
+      <tbody>
+
+      </tbody>
+      <tfoot id="no-customers" class="d-none">
+      <tr>
+        <td colspan="3" class="text-center">
+          No customers. Add a customer.
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+    <div id="loader-wrapper" class="mt-4 flex-column
+                align-items-center">
+      <div class="mb-4">Please wait</div>
+      <div class="loader"></div>
+    </div>
+  </main>
+  </body>
+</html>
