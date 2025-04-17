@@ -44,6 +44,20 @@ public class CustomerDataAccess {
         }
     }
 
+    public static String getProfilePic(Connection connection, int id) {
+        try(Statement stm = connection.createStatement()){
+            ResultSet rst = stm.executeQuery("SELECT profile_pic FROM customer WHERE id = " + id);
+            if (rst.next()){
+                return rst.getString("profile_pic");
+            }else{
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public static boolean deleteCustomer(Connection connection, int id) {
         try {
             Statement stm = connection.createStatement();
