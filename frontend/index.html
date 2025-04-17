@@ -19,28 +19,42 @@
 </header>
 <main>
   <table id="tbl-customers" class="table table-hover">
+    <tbody>
+    <!--    <tr>-->
+    <!--      <td>-->
+    <!--        <img class="profile-picture rounded"-->
+    <!--             src="https://t4.ftcdn.net/jpg/06/08/55/73/360_F_608557356_ELcD2pwQO9pduTRL30umabzgJoQn5fnd.jpg"-->
+    <!--             alt="">-->
+    <!--      </td>-->
+    <!--      <td>-->
+    <!--        <div>-->
+    <!--          <b>ID:</b> C001-->
+    <!--        </div>-->
+    <!--        <div>-->
+    <!--          <b>Name:</b> Kasun Sampath-->
+    <!--        </div>-->
+    <!--        <div>-->
+    <!--          <b>Address:</b> Grace Peries Road, Kottawa-->
+    <!--        </div>-->
+    <!--      </td>-->
+    <!--      <td class="align-middle text-end">-->
+    <!--        <i title="Delete" class="bi bi-trash fs-2 pe-2"></i>-->
+    <!--      </td>-->
+    <!--    </tr>-->
+    </tbody>
+    <tfoot>
     <tr>
-      <td>
-        <img class="profile-picture rounded"
-             src="https://t4.ftcdn.net/jpg/06/08/55/73/360_F_608557356_ELcD2pwQO9pduTRL30umabzgJoQn5fnd.jpg"
-             alt="">
-      </td>
-      <td>
-        <div>
-          <b>ID:</b> C001
-        </div>
-        <div>
-          <b>Name:</b> Kasun Sampath
-        </div>
-        <div>
-          <b>Address:</b> Grace Peries Road, Kottawa
-        </div>
-      </td>
-      <td class="align-middle text-end">
-        <i title="Delete" class="bi bi-trash fs-2 pe-2"></i>
+      <td colspan="3" class="text-center">
+        No customers. Add a customer.
       </td>
     </tr>
+    </tfoot>
   </table>
+  <div id="loader-wrapper" class="mt-4 flex-column
+                 align-items-center">
+    <div class="mb-4">Please wait</div>
+    <div class="loader"></div>
+  </div>
 </main>
 </body>
 
