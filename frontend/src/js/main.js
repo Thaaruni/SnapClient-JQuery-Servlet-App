@@ -1,3 +1,7 @@
 import $ from 'jquery';
 
-$('h1').css('color', 'red');
+const trFirst = $("#tbl-customers tr:first-child").clone();
+
+for (let i = 0; i < 10; i++) {
+    $("#tbl-customers").append(trFirst.clone());
+}

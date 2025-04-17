@@ -6,3 +6,47 @@
 body {
   font-family: "Ubuntu", sans-serif;
 }
+
+
+#tbl-customers {
+  td:first-child {
+    width: 150px;
+  }
+
+
+  @media all and (width <= 475px) {
+    td:first-child {
+      width: auto;
+    }
+  }
+
+  .profile-picture {
+    width: clamp(100px, 30vw, 150px);
+  }
+
+  td:last-child {
+    i {
+      cursor: pointer;
+
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}
+
+header {
+  @media all and (width <= 475px) {
+    h1 {
+      i {
+        display: none;
+      }
+
+      font-size: 1.3rem;
+    }
+
+    button {
+      font-size: 0.8rem !important;
+    }
+  }
+}
