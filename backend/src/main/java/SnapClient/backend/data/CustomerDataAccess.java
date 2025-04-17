@@ -1,6 +1,7 @@
 package SnapClient.backend.data;
 
-import SnapClient.backend.to.Customer;
+import SnapClient.backend.entity.Customer;
+import SnapClient.backend.to.CustomerTo;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

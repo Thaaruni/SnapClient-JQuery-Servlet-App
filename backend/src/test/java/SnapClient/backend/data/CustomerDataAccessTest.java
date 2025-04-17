@@ -1,7 +1,8 @@
 package SnapClient.backend.data;
 
-import SnapClient.backend.data.CustomerDataAccess;
-import SnapClient.backend.to.Customer;
+import SnapClient.backend.entity.Customer;
+//import SnapClient.backend.to.CustomerTo;
+import SnapClient.backend.to.CustomerTo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
