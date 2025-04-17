@@ -8,9 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
+import org.junit.jupiter.params.provider.ValueSource;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -96,7 +95,12 @@ class CustomerDataAccessTest {
     }
 
     // Test Case
-    @Test
-    void deleteCustomer() {
+        @ValueSource(ints = {1, 2, 3})
+        @ParameterizedTest
+        void deleteCustomer(int id) {
+            assertDoesNotThrow(() -> {
+                boolean result = CustomerDataAccess.deleteCustomer(connection, id);
+                assertTrue(result);
+            });
     }
 }
