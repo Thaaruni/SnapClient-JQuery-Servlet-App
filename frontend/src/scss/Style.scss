@@ -10,18 +10,15 @@ body {
 
 #tbl-customers {
   td:first-child {
-    width: 150px;
-  }
-
-
-  @media all and (width <= 475px) {
-    td:first-child {
-      width: auto;
-    }
+    width: 100px;
   }
 
   .profile-picture {
-    width: clamp(100px, 30vw, 150px);
+    width: 100px;
+    height: 100px;
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
   td:last-child {

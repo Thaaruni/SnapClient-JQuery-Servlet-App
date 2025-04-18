@@ -20,9 +20,8 @@ function loadAllCustomers(){
                         $('#tbl-customers tbody').append(`
                      <tr>
                          <td>
-                             <img class="profile-picture rounded"
-                                  src="${c.profilePicture}"
-                                  alt="${c.name}">
+                             <div class="profile-picture rounded border"
+                                  style="background-image: url('${c.profilePicture}')"></div>
                          </td>
                          <td>
                              <div>
