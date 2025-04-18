@@ -1,7 +1,16 @@
 import $ from 'jquery';
 import 'bootstrap';
 
+/* Module Variables and Constants */
+let profilePictureFile = null;
+const modal = $("#new-customer-modal")[0];
+const flPicture = $("#fl-picture");
+const profilePictureElm = $("#profile-picture");
+const btnSave = $("#btn-save");
+/* Init */
+
 loadAllCustomers();
+
 
 function loadAllCustomers() {
 
@@ -58,7 +67,20 @@ function loadAllCustomers() {
     xhr.send();
 
 }
+function loadImageFile(file) {
+    if (file.size >= (5 * 1024 * 1024)) return;
+    const fileReader = new FileReader();
+    fileReader.addEventListener('load', () => {
+        profilePictureElm
+            .removeClass('is-invalid')
+            .css('background-image',
+                `url('${fileReader.result}')`);
+        $("#profile-picture .bi-image").addClass('d-none');
+    });
+    fileReader.readAsDataURL(file);
+}
 
+/* Event Handlers */
 $('#tbl-customers tbody').on('click', ".bi.bi-trash", (e) => {
     const row = $(e.target).parents("tr");
     const id = row.find('span.c-id').text();
@@ -94,9 +116,6 @@ $('#tbl-customers tbody').on('click', ".bi.bi-trash", (e) => {
     xhr.send();
 });
 
-const modal = $("#new-customer-modal")[0];
-const flPicture = $("#fl-picture");
-const profilePictureElm = $("#profile-picture");
 
 $("header button").trigger('click');
 
@@ -108,6 +127,9 @@ modal.addEventListener('hidden.bs.modal', () => {
     $("#txt-name, #txt-address, #profile-picture")
         .removeClass('is-invalid');
     $("#btn-clear").trigger('click');
+    btnSave.prop('disabled', false)
+        .children('.loader-wrapper').addClass('d-none');
+
 });
 
 $("#btn-browse").on('click', () => {
@@ -152,20 +174,6 @@ flPicture.on('change', () => {
     }
 });
 
-function loadImageFile(file){
-    if (file.size >= (5 * 1024 * 1024)) return;
-    const fileReader = new FileReader();
-    fileReader.addEventListener('load', () => {
-        profilePictureElm
-            .removeClass('is-invalid')
-            .css('background-image',
-                `url('${fileReader.result}')`);
-        $("#profile-picture .bi-image").addClass('d-none');
-    });
-    fileReader.readAsDataURL(file);
-}
-
-const btnSave = $("#btn-save");
 btnSave.on('click', () => {
     const txtName = $("#txt-name");
     const txtAddress = $("#txt-address");
@@ -195,4 +203,19 @@ btnSave.on('click', () => {
     btnSave.prop('disabled', true);
     const btnLoaderWrapper = $("#btn-save .loader-wrapper");
     btnLoaderWrapper.removeClass('d-none');
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.addEventListener('loadend', ()=>{
+
+    });
+
+    xhr.open('POST',
+        'http://localhost:8080/app/v1/customers', true);
+
+    // xhr.setRequestHeader("multipart/form-data");
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("address", address);
+    formData.append("profilePicture", /* FILE */);
 });
