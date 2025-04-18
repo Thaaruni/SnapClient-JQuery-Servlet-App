@@ -118,22 +118,6 @@ $("#btn-clear").on('click', () => {
     $("#profile-picture .bi-image").removeClass('d-none');
 });
 
-flPicture.on('change', () => {
-    const fileList = flPicture.prop('files');
-    if (fileList.length) {
-        const file = fileList[0];
-        const fileReader = new FileReader();
-        fileReader.addEventListener('load', () => {
-            profilePictureElm
-                .removeClass('is-invalid')
-                .css('background-image',
-                `url('${fileReader.result}')`);
-            $("#profile-picture .bi-image").addClass('d-none');
-        });
-        fileReader.readAsDataURL(file);
-    }
-});
-
 $("#txt-name, #txt-address").on('input', function () {
     $(this).removeClass('is-invalid');
 });
@@ -166,6 +150,34 @@ profilePictureElm.on('dragover', (e) => {
     profilePictureElm.addClass('drop-effect');
 }).on('dragleave', () => {
     profilePictureElm.removeClass('drop-effect');
-}).on('drop', () => {
-    console.log("Dropped");
+}).on('drop', (e) => {
+    e.preventDefault();
+    profilePictureElm.removeClass('drop-effect');
+    const fileList = e.originalEvent.dataTransfer.files;
+    if (fileList.length){
+        const file = fileList[0];
+        if (file.type.startsWith("image/")){
+            loadImageFile(file);
+        }
+    }
 });
+
+flPicture.on('change', () => {
+    const fileList = flPicture.prop('files');
+    if (fileList.length) {
+        const file = fileList[0];
+        loadImageFile(file);
+    }
+});
+
+function loadImageFile(file){
+    const fileReader = new FileReader();
+    fileReader.addEventListener('load', () => {
+        profilePictureElm
+            .removeClass('is-invalid')
+            .css('background-image',
+                `url('${fileReader.result}')`);
+        $("#profile-picture .bi-image").addClass('d-none');
+    });
+    fileReader.readAsDataURL(file);
+}
