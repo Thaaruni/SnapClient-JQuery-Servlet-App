@@ -104,4 +104,8 @@ header {
     font-size: 3rem;
     color: green;
   }
+
+  &.is-invalid {
+    border-color: red !important;
+  }
 }
