@@ -114,3 +114,25 @@ header {
 .drop-effect {
   border: 3px dashed dodgerblue !important;
 }
+
+#btn-save {
+  position: relative;
+  padding-left: 45px;
+
+  .loader-wrapper{
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: scale(0.5) translateY(-25%);
+  }
+
+  .loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid lightblue;
+    border-right-color: orange;
+    animation: l2 1s infinite linear;
+  }
+  @keyframes l2 {to{transform: rotate(1turn)}}
+}

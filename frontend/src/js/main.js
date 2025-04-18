@@ -1,10 +1,9 @@
 import $ from 'jquery';
 import 'bootstrap';
 
-
 loadAllCustomers();
 
-function loadAllCustomers(){
+function loadAllCustomers() {
 
     // 1.
     const xhr = new XMLHttpRequest();
@@ -17,29 +16,29 @@ function loadAllCustomers(){
                 const customerList = JSON.parse(xhr.responseText);
                 if (customerList.length) {
                     $("#tbl-customers tfoot").addClass('d-none');
-                    customerList.forEach(c =>{
+                    customerList.forEach(c => {
                         $('#tbl-customers tbody').append(`
-                     <tr>
-                         <td>
-                             <div class="profile-picture rounded border"
-                                  style="background-image: url('${c.profilePicture}')"></div>
-                         </td>
-                         <td>
-                             <div>
-                                 <b>ID:</b> ${c.id}
-                             </div>
-                             <div>
-                                 <b>Name:</b> ${c.name}
-                             </div>
-                             <div>
-                                 <b>Address:</b> ${c.address}
-                             </div>
-                         </td>
-                         <td class="align-middle text-end">
-                             <i title="Delete" class="bi bi-trash fs-2 pe-2"></i>
-                         </td>
-                     </tr>                        
-                         `);
+                    <tr class="animate__animated animate__fadeIn">
+                        <td>
+                            <div class="profile-picture rounded border"
+                                 style="background-image: url('${c.profilePicture}')"></div>
+                        </td>
+                        <td>
+                            <div>
+                                <b>ID:</b> <span class="c-id">${c.id}</span>
+                            </div>
+                            <div>
+                                <b>Name:</b> ${c.name}
+                            </div>
+                            <div>
+                                <b>Address:</b> ${c.address}
+                            </div>
+                        </td>
+                        <td class="align-middle text-end">
+                            <i title="Delete" class="bi bi-trash fs-2 pe-2"></i>
+                        </td>
+                    </tr>                        
+                        `);
                     });
                 } else {
                     $("#tbl-customers tfoot").removeClass('d-none');
@@ -47,13 +46,12 @@ function loadAllCustomers(){
             } else {
                 alert('Something went wrong, try again');
             }
-        }, 1000);
+        }, 500);
     });
 
     // 3.
     xhr.open('GET',
         'http://localhost:8080/app/v1/customers', true);
-
     // 4.
 
     // 5.
@@ -61,33 +59,38 @@ function loadAllCustomers(){
 
 }
 
-$('#tbl-customers tbody').on('click', ".bi.bi-trash", (e)=>{
+$('#tbl-customers tbody').on('click', ".bi.bi-trash", (e) => {
     const row = $(e.target).parents("tr");
     const id = row.find('span.c-id').text();
     const progressBar = $("#progress-bar");
 
     progressBar.removeClass('d-none').css('width', '10px');
+
     const xhr = new XMLHttpRequest();
-    xhr.addEventListener('loadend', ()=>{
-        if (xhr.status === 204){
+
+    xhr.addEventListener('loadend', () => {
+        if (xhr.status === 204) {
             progressBar.css('width', '100%');
-            setTimeout(()=>{
+            setTimeout(() => {
                 progressBar.addClass('d-none').css('width', '0');
                 row.addClass("animate__animated animate__fadeOut");
-                setTimeout(()=>{
+
+                setTimeout(() => {
                     row.remove();
-                    if (!$("#tbl-customers tbody tr").length){
+                    if (!$("#tbl-customers tbody tr").length) {
                         $("#tbl-customers tfoot").removeClass('d-none');
                     }
                 }, 500)
             }, 200);
-        }else{
+        } else {
             alert("Failed to delete, try again");
         }
     });
+
     xhr.open('DELETE',
         `http://localhost:8080/app/v1/customers/${id}`,
         true);
+
     xhr.send();
 });
 
@@ -107,7 +110,6 @@ modal.addEventListener('hidden.bs.modal', () => {
     $("#btn-clear").trigger('click');
 });
 
-
 $("#btn-browse").on('click', () => {
     flPicture.trigger('click');
 });
@@ -120,28 +122,6 @@ $("#btn-clear").on('click', () => {
 
 $("#txt-name, #txt-address").on('input', function () {
     $(this).removeClass('is-invalid');
-});
-
-$('#btn-save').on('click', () => {
-    const txtName = $("#txt-name");
-    const txtAddress = $("#txt-address");
-    const name = txtName.val().trim();
-    const address = txtAddress.val().trim();
-
-    $("#txt-name, #txt-address, #profile-picture")
-        .removeClass('is-invalid');
-
-    if (address.length < 3) {
-        txtAddress.addClass('is-invalid')
-            .trigger('focus').trigger('select');
-    }
-    if (!/^[A-Za-z ]+$/.test(name)) {
-        txtName.addClass('is-invalid')
-            .trigger('focus').trigger('select');
-    }
-    if (!flPicture.val()) {
-        profilePictureElm.addClass('is-invalid');
-    }
 });
 
 profilePictureElm.on('dragover', (e) => {
@@ -171,6 +151,7 @@ flPicture.on('change', () => {
 });
 
 function loadImageFile(file){
+    if (file.size >= (5 * 1024 * 1024)) return;
     const fileReader = new FileReader();
     fileReader.addEventListener('load', () => {
         profilePictureElm
@@ -181,3 +162,33 @@ function loadImageFile(file){
     });
     fileReader.readAsDataURL(file);
 }
+
+const btnSave = $("#btn-save");
+btnSave.on('click', () => {
+    const txtName = $("#txt-name");
+    const txtAddress = $("#txt-address");
+    const name = txtName.val().trim();
+    const address = txtAddress.val().trim();
+    let valid = true;
+
+    $("#txt-name, #txt-address, #profile-picture")
+        .removeClass('is-invalid');
+
+    if (address.length < 3) {
+        txtAddress.addClass('is-invalid')
+            .trigger('focus').trigger('select');
+        valid = false;
+    }
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        txtName.addClass('is-invalid')
+            .trigger('focus').trigger('select');
+        valid = false;
+    }
+    if (!flPicture.val()) {
+        profilePictureElm.addClass('is-invalid');
+        valid = false;
+    }
+    if (!valid) return;
+
+    btnSave.prop('disabled', true);
+});
