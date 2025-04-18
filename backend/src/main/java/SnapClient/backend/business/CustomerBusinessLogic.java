@@ -49,7 +49,8 @@ public class CustomerBusinessLogic {
         int customerId = Integer.parseInt(id.replace("C", ""));
         String profilePic = CustomerDataAccess.getProfilePic(connection, customerId);
         if (CustomerDataAccess.deleteCustomer(connection,customerId)){
-            return new File(uploadDir, Objects.requireNonNull(profilePic)).delete();
+            new File(uploadDir, Objects.requireNonNull(profilePic)).delete();
+            return true;
         }
         return false;
     }

@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 import jakarta.servlet.http.Part;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -31,7 +33,35 @@ public class CustomerServlet extends HttpServlet {
             resp.sendError(404, "Resource Not Found");
             return;
         }
-        resp.getWriter().println("<h1>Get All Customer List</h1>");
+        BasicDataSource cp = (BasicDataSource) getServletContext().getAttribute("DATA_SOURCE");
+        try (Connection connection = cp.getConnection()) {
+            List<CustomerTo<String>> customerList = CustomerBusinessLogic.getAllCustomers(connection);
+
+            resp.setContentType("application/json");
+            resp.setStatus(200);
+
+            StringBuilder json = new StringBuilder();
+            json.append("[");
+            customerList.forEach(c ->{
+                String profilePicUrl = req.getScheme() + "://" +
+                        req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/upload/" +
+                        c.getProfilePicture();
+                json.append("""
+                         {
+                         "id": "%s",
+                         "name": "%s",
+                         "address": "%s",
+                         "profilePicture": "%s"
+                         }
+                         """.formatted(c.getId(), c.getName(), c.getAddress(), profilePicUrl));
+                json.append(",");
+            });
+            if (!customerList.isEmpty()) json.deleteCharAt(json.length() - 1);
+            json.append("]");
+            resp.getWriter().write(json.toString());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -97,8 +127,18 @@ public class CustomerServlet extends HttpServlet {
         }else if (!req.getPathInfo().matches("/[Cc]\\d{3}/?")){
             resp.sendError(400, "Invalid ID Format");
         }else{
-            resp.getWriter().println("<h1>Delete Customer: %s</h1>".formatted(req.
-                    getPathInfo().substring(1)));
+            BasicDataSource cp = (BasicDataSource) getServletContext().getAttribute("DATA_SOURCE");
+            try (Connection connection = cp.getConnection()) {
+                String uploadDirPath = getServletContext().getRealPath("/upload");
+                String customerId = req.getPathInfo().substring(1);
+                if (CustomerBusinessLogic.deleteCustomer(connection, uploadDirPath, customerId)){
+                    resp.setStatus(204);
+                }else{
+                    resp.sendError(404, "Invalid ID");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
