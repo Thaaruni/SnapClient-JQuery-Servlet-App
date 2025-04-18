@@ -91,4 +91,36 @@ $('#tbl-customers tbody').on('click', ".bi.bi-trash", (e)=>{
     xhr.send();
 });
 
+const modal = $("#new-customer-modal")[0];
+
+modal.addEventListener('shown.bs.modal', () => {
+    $("#new-customer-modal #txt-name").trigger('focus');
+});
+modal.addEventListener('hidden.bs.modal', () => {
+    $("#txt-name, #txt-address").val("");
+});
+
 $("header button").trigger('click');
+
+$('#btn-save').on('click', () => {
+    const txtName = $("#txt-name");
+    const txtAddress = $("#txt-address");
+    const name = txtName.val().trim();
+    const address = txtAddress.val().trim();
+
+    $("#txt-address, #txt-name").removeClass('is-invalid');
+
+    if (address.length < 3) {
+        txtAddress.addClass('is-invalid')
+            .trigger('focus').trigger('select');
+    }
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        txtName.addClass('is-invalid')
+            .trigger('focus').trigger('select');
+    }
+
+});
+
+$("#txt-name, #txt-address").on('input', function () {
+    $(this).removeClass('is-invalid');
+})
