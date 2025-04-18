@@ -92,6 +92,9 @@ $('#tbl-customers tbody').on('click', ".bi.bi-trash", (e)=>{
 });
 
 const modal = $("#new-customer-modal")[0];
+const flPicture = $("#fl-picture");
+
+$("header button").trigger('click');
 
 modal.addEventListener('shown.bs.modal', () => {
     $("#new-customer-modal #txt-name").trigger('focus');
@@ -103,37 +106,6 @@ modal.addEventListener('hidden.bs.modal', () => {
     $("#btn-clear").trigger('click');
 });
 
-$("header button").trigger('click');
-
-$('#btn-save').on('click', () => {
-    const txtName = $("#txt-name");
-    const txtAddress = $("#txt-address");
-    const name = txtName.val().trim();
-    const address = txtAddress.val().trim();
-
-    $("#txt-name, #txt-address, #profile-picture")
-        .removeClass('is-invalid');
-
-    if (address.length < 3) {
-        txtAddress.addClass('is-invalid')
-            .trigger('focus').trigger('select');
-    }
-    if (!/^[A-Za-z ]+$/.test(name)) {
-        txtName.addClass('is-invalid')
-            .trigger('focus').trigger('select');
-    }
-
-    if (!flPicture.val()){
-        $("#profile-picture").addClass('is-invalid');
-    }
-
-});
-
-$("#txt-name, #txt-address").on('input', function () {
-    $(this).removeClass('is-invalid');
-});
-
-const flPicture = $("#fl-picture");
 
 $("#btn-browse").on('click', () => {
     flPicture.trigger('click');
@@ -158,5 +130,31 @@ flPicture.on('change', () => {
             $("#profile-picture .bi-image").addClass('d-none');
         });
         fileReader.readAsDataURL(file);
+    }
+});
+
+$("#txt-name, #txt-address").on('input', function () {
+    $(this).removeClass('is-invalid');
+});
+
+$('#btn-save').on('click', () => {
+    const txtName = $("#txt-name");
+    const txtAddress = $("#txt-address");
+    const name = txtName.val().trim();
+    const address = txtAddress.val().trim();
+
+    $("#txt-name, #txt-address, #profile-picture")
+        .removeClass('is-invalid');
+
+    if (address.length < 3) {
+        txtAddress.addClass('is-invalid')
+            .trigger('focus').trigger('select');
+    }
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        txtName.addClass('is-invalid')
+            .trigger('focus').trigger('select');
+    }
+    if (!flPicture.val()){
+        $("#profile-picture").addClass('is-invalid');
     }
 });
