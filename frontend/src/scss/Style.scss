@@ -84,3 +84,13 @@ header {
     35%            {transform:translateY(0%)    rotate(0deg)}
   }
 }
+
+#progress-bar {
+  position: fixed;
+  background-color: red;
+  left: 0;
+  width: 0;
+  top: 0;
+  transition: width 400ms;
+  height: 2px;
+}
