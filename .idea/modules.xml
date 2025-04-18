@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SnapClient (Servlet Jquery App).iml" filepath="$PROJECT_DIR$/.idea/SnapClient (Servlet Jquery App).iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/back-end.main.iml" filepath="$PROJECT_DIR$/.idea/modules/back-end.main.iml" />
     </modules>
   </component>
 </project>
