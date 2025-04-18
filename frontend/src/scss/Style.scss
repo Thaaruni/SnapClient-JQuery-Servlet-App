@@ -117,8 +117,9 @@ header {
 
 #btn-save {
   position: relative;
-  padding-left: 45px;
-
+  &:has(.loader-wrapper:not(.d-none)){
+    padding-left: 45px;
+  }
   .loader-wrapper{
     position: absolute;
     left: 0;

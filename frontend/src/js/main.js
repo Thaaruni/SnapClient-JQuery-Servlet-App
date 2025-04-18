@@ -122,6 +122,8 @@ $("#btn-clear").on('click', () => {
 
 $("#txt-name, #txt-address").on('input', function () {
     $(this).removeClass('is-invalid');
+}).on('keypress', (e)=>{
+    if (e.key === 'Enter') btnSave.trigger('click');
 });
 
 profilePictureElm.on('dragover', (e) => {
@@ -184,11 +186,13 @@ btnSave.on('click', () => {
             .trigger('focus').trigger('select');
         valid = false;
     }
-    if (!flPicture.val()) {
+    if (profilePictureElm.css('background-image') === 'none') {
         profilePictureElm.addClass('is-invalid');
         valid = false;
     }
     if (!valid) return;
 
     btnSave.prop('disabled', true);
+    const btnLoaderWrapper = $("#btn-save .loader-wrapper");
+    btnLoaderWrapper.removeClass('d-none');
 });
