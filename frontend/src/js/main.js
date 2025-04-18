@@ -98,6 +98,9 @@ modal.addEventListener('shown.bs.modal', () => {
 });
 modal.addEventListener('hidden.bs.modal', () => {
     $("#txt-name, #txt-address").val("");
+    $("#txt-name, #txt-address, #profile-picture")
+        .removeClass('is-invalid');
+    $("#btn-clear").trigger('click');
 });
 
 $("header button").trigger('click');
@@ -108,7 +111,8 @@ $('#btn-save').on('click', () => {
     const name = txtName.val().trim();
     const address = txtAddress.val().trim();
 
-    $("#txt-address, #txt-name").removeClass('is-invalid');
+    $("#txt-name, #txt-address, #profile-picture")
+        .removeClass('is-invalid');
 
     if (address.length < 3) {
         txtAddress.addClass('is-invalid')
@@ -147,7 +151,9 @@ flPicture.on('change', () => {
         const file = fileList[0];
         const fileReader = new FileReader();
         fileReader.addEventListener('load', ()=>{
-            $("#profile-picture").css('background-image',
+            $("#profile-picture")
+                .removeClass('is-invalid')
+                .css('background-image',
                 `url('${fileReader.result}')`);
             $("#profile-picture .bi-image").addClass('d-none');
         });
