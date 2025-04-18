@@ -75,8 +75,8 @@
           <div id="profile-picture" class="border mb-2 rounded d-flex justify-content-center align-items-center">
             <i class="bi bi-image"></i>
           </div>
-          <button class="btn btn-sm btn-outline-success">Browse</button>
-          <button class="btn btn-sm btn-outline-danger">Clear</button>
+          <button id="btn-browse" class="btn btn-sm btn-outline-success">Browse</button>
+          <button id="btn-clear" class="btn btn-sm btn-outline-danger">Clear</button>
         </div>
         <div class="flex-grow-1">
           <div>
@@ -91,6 +91,8 @@
             <input class="form-control" id="txt-address"
                    type="text" placeholder="Eg. Grace Peries Road, Panadura">
           </div>
+          <input id="fl-picture"
+                 class="d-none" type="file" accept="image/*">
         </div>
       </div>
       <div class="modal-footer">

@@ -123,4 +123,27 @@ $('#btn-save').on('click', () => {
 
 $("#txt-name, #txt-address").on('input', function () {
     $(this).removeClass('is-invalid');
-})
+});
+
+const flPicture = $("#fl-picture");
+
+$("#btn-browse").on('click', () => {
+    flPicture.trigger('click');
+});
+
+$("#btn-clear").on('click', () => {
+    flPicture.val('');
+});
+
+flPicture.on('change', () => {
+    const fileList = flPicture.prop('files');
+    if (fileList.length) {
+        const file = fileList[0];
+        const fileReader = new FileReader();
+        fileReader.addEventListener('load', ()=>{
+            $("#profile-picture").css('background-image',
+                `url('${fileReader.result}')`);
+        });
+        fileReader.readAsDataURL(file);
+    }
+});
