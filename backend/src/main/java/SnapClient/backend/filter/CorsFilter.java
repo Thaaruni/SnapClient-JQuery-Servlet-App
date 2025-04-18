@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.stream.Stream;
 
@@ -23,14 +24,9 @@ public class CorsFilter extends HttpFilter {
         properties.load(getClass().getResourceAsStream("/application.properties"));
         String allowedOrigins = properties.getProperty("app.allowed.origins");
         if (allowedOrigins != null) {
-            this.allowedOrigins = Stream.of(allowedOrigins.split(",")).map(String::trim)
+            this.allowedOrigins = Stream.of(allowedOrigins.split(",")).map(String::strip)
                     .toArray(String[]::new);
-            for (String origin : this.allowedOrigins) {
-                if (origin.contains("*"))  {
-                    allowedAnyOrigin = true;
-                    break;
-                }
-            }
+            allowedAnyOrigin = Arrays.asList(this.allowedOrigins).contains("*");
         }
     }
 
