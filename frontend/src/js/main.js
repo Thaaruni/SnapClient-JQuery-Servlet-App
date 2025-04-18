@@ -7,11 +7,11 @@ const modal = $("#new-customer-modal")[0];
 const flPicture = $("#fl-picture");
 const profilePictureElm = $("#profile-picture");
 const btnSave = $("#btn-save");
-/* Init */
 
+/* Init */
 loadAllCustomers();
 
-
+/* Functions */
 function loadAllCustomers() {
 
     // 1.
@@ -67,8 +67,10 @@ function loadAllCustomers() {
     xhr.send();
 
 }
+
 function loadImageFile(file) {
     if (file.size >= (5 * 1024 * 1024)) return;
+    profilePictureFile = file;
     const fileReader = new FileReader();
     fileReader.addEventListener('load', () => {
         profilePictureElm
@@ -116,12 +118,12 @@ $('#tbl-customers tbody').on('click', ".bi.bi-trash", (e) => {
     xhr.send();
 });
 
-
 $("header button").trigger('click');
 
 modal.addEventListener('shown.bs.modal', () => {
     $("#new-customer-modal #txt-name").trigger('focus');
 });
+
 modal.addEventListener('hidden.bs.modal', () => {
     $("#txt-name, #txt-address").val("");
     $("#txt-name, #txt-address, #profile-picture")
@@ -129,7 +131,6 @@ modal.addEventListener('hidden.bs.modal', () => {
     $("#btn-clear").trigger('click');
     btnSave.prop('disabled', false)
         .children('.loader-wrapper').addClass('d-none');
-
 });
 
 $("#btn-browse").on('click', () => {
@@ -140,6 +141,7 @@ $("#btn-clear").on('click', () => {
     flPicture.val('');
     profilePictureElm.css('background-image', '');
     $("#profile-picture .bi-image").removeClass('d-none');
+    profilePictureFile = null;
 });
 
 $("#txt-name, #txt-address").on('input', function () {
@@ -158,9 +160,9 @@ profilePictureElm.on('dragover', (e) => {
     e.preventDefault();
     profilePictureElm.removeClass('drop-effect');
     const fileList = e.originalEvent.dataTransfer.files;
-    if (fileList.length){
+    if (fileList.length) {
         const file = fileList[0];
-        if (file.type.startsWith("image/")){
+        if (file.type.startsWith("image/")) {
             loadImageFile(file);
         }
     }
@@ -194,7 +196,7 @@ btnSave.on('click', () => {
             .trigger('focus').trigger('select');
         valid = false;
     }
-    if (profilePictureElm.css('background-image') === 'none') {
+    if (!profilePictureFile) {
         profilePictureElm.addClass('is-invalid');
         valid = false;
     }
@@ -207,7 +209,15 @@ btnSave.on('click', () => {
     const xhr = new XMLHttpRequest();
 
     xhr.addEventListener('loadend', ()=>{
-
+        btnLoaderWrapper.addClass('d-none');
+        btnSave.prop('disabled', false);
+        if (xhr.status === 201){
+            $("#btn-close").trigger('click');
+            $("#tbl-customers tbody").empty();
+            loadAllCustomers();
+        }else{
+            alert("Failed to save the customer, try again");
+        }
     });
 
     xhr.open('POST',
@@ -217,5 +227,8 @@ btnSave.on('click', () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("address", address);
-    formData.append("profilePicture", /* FILE */);
+    formData.append("profilePicture", profilePictureFile);
+
+    xhr.send(formData);
+
 });
