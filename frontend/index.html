@@ -1,20 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SnapClient - Servlet jQuery App</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Servlet jQuery App</title>
   <link rel="stylesheet" href="./src/scss/Style.scss">
   <script type="module" src="./src/js/main.js"></script>
 </head>
 <body>
 <header class="p-3 d-flex justify-content-between
-       border-bottom align-items-center">
+      border-bottom align-items-center">
   <h1 class="m-0">
     <i class="bi bi-person-bounding-box me-1 text-primary"></i>
-    SnapClient - Servlet jQuery App
+    Servlet jQuery App
   </h1>
-
   <button class="btn btn-outline-primary"
           data-bs-toggle="modal" data-bs-target="#new-customer-modal">
     New Customer
@@ -23,29 +22,29 @@
 <main>
   <table id="tbl-customers" class="table table-hover">
     <tbody>
-    <!--    <tr>-->
-    <!--      <td>-->
-    <!--        <img class="profile-picture rounded"-->
-    <!--             src="https://t4.ftcdn.net/jpg/06/08/55/73/360_F_608557356_ELcD2pwQO9pduTRL30umabzgJoQn5fnd.jpg"-->
-    <!--             alt="">-->
-    <!--      </td>-->
-    <!--      <td>-->
-    <!--        <div>-->
-    <!--          <b>ID:</b> C001-->
-    <!--        </div>-->
-    <!--        <div>-->
-    <!--          <b>Name:</b> Kasun Sampath-->
-    <!--        </div>-->
-    <!--        <div>-->
-    <!--          <b>Address:</b> Grace Peries Road, Kottawa-->
-    <!--        </div>-->
-    <!--      </td>-->
-    <!--      <td class="align-middle text-end">-->
-    <!--        <i title="Delete" class="bi bi-trash fs-2 pe-2"></i>-->
-    <!--      </td>-->
-    <!--    </tr>-->
+    <!--            <tr>-->
+    <!--                <td>-->
+    <!--                    <img class="profile-picture rounded"-->
+    <!--                         src="https://t4.ftcdn.net/jpg/06/08/55/73/360_F_608557356_ELcD2pwQO9pduTRL30umabzgJoQn5fnd.jpg"-->
+    <!--                         alt="">-->
+    <!--                </td>-->
+    <!--                <td>-->
+    <!--                    <div>-->
+    <!--                        <b>ID:</b> C001-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <b>Name:</b> Kasun Sampath-->
+    <!--                    </div>-->
+    <!--                    <div>-->
+    <!--                        <b>Address:</b> Grace Peries Road, Panadura-->
+    <!--                    </div>-->
+    <!--                </td>-->
+    <!--                <td class="align-middle text-end">-->
+    <!--                    <i title="Delete" class="bi bi-trash fs-2 pe-2"></i>-->
+    <!--                </td>-->
+    <!--            </tr>-->
     </tbody>
-    <tfoot>
+    <tfoot id="no-customers" class="d-none">
     <tr>
       <td colspan="3" class="text-center">
         No customers. Add a customer.
@@ -54,29 +53,52 @@
     </tfoot>
   </table>
   <div id="loader-wrapper" class="mt-4 flex-column
-                 align-items-center">
+                align-items-center">
     <div class="mb-4">Please wait</div>
     <div class="loader"></div>
   </div>
 </main>
+
+<!-- Modal -->
 <div class="modal fade" id="new-customer-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          <i class="bi bi-plus-circle-dotted me-2"></i>
+          New Customer
+        </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body d-flex gap-3">
+        <div class="text-center">
+          <div id="profile-picture" class="border mb-2 rounded"></div>
+          <button class="btn btn-sm btn-outline-success">Browse</button>
+          <button class="btn btn-sm btn-outline-danger">Clear</button>
+        </div>
+        <div class="flex-grow-1">
+          <div>
+            <div class="mb-1">Please fill following details to continue</div>
+            <label for="txt-name" class="text-secondary">Customer Name</label>
+            <input class="form-control" id="txt-name"
+                   type="text" placeholder="Eg. Kasun Sampath">
+          </div>
+
+          <div class="mt-2">
+            <label for="txt-address" class="text-secondary">Customer Address</label>
+            <input class="form-control" id="txt-address"
+                   type="text" placeholder="Eg. Grace Peries Road, Panadura">
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>
 </div>
+
 <div id="progress-bar" class="d-none"></div>
 </body>
-
 </html>
